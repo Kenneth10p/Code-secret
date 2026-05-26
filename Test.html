@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pour Ifê</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a0510; font-family: Georgia, 'Times New Roman', serif; }
+
+  #scene {
+    width: 100%;
+    height: 320px;
+    background: #2d0a1a;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(340px) rotate(360deg); opacity: 0; }
+  }
+
+  .star-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: #f9c8d9;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.6; }
+  }
+
+  .moon {
+    position: absolute;
+    top: 28px;
+    right: 80px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fde8f0;
+  }
+
+  .moon-cut {
+    position: absolute;
+    top: 4px;
+    right: -10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2d0a1a;
+  }
+
+  .letter-wrap {
+    padding: 2.5rem 2.5rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .letter-line {
+    font-size: 17px;
+    line-height: 2;
+    color: #f5e6ed;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    margin-bottom: 0.1rem;
+  }
+
+  .letter-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .salutation {
+    font-size: 16px;
+    font-style: italic;
+    color: #e0789e;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    margin-bottom: 1.2rem;
+  }
+
+  .salutation.visible { opacity: 1; }
+
+  .divider {
+    width: 28px;
+    height: 1px;
+    background: #e8b4c8;
+    margin: 1.2rem 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .divider.visible { opacity: 0.5; }
+
+  .signature {
+    font-size: 14px;
+    font-style: italic;
+    color: #c4859a;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    margin-top: 1.3rem;
+  }
+
+  .signature.visible { opacity: 1; }
+
+  .heart-btn {
+    display: block;
+    margin: 1.8rem auto 1rem;
+    background: none;
+    border: 1px solid #c45c82;
+    border-radius: 30px;
+    padding: 10px 28px;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #e0789e;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.8s ease, background 0.2s;
+  }
+
+  .heart-btn:hover { background: #3d0f20; }
+  .heart-btn.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="scene">
+  <div class="moon"><div class="moon-cut"></div></div>
+
+  <svg style="position:absolute;bottom:0;width:100%;" viewBox="0 0 680 120" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="80" width="680" height="40" fill="#1a0510"/>
+    <g opacity="0.9">
+      <ellipse cx="40" cy="80" rx="12" ry="6" fill="#8b1a40"/>
+      <ellipse cx="52" cy="75" rx="12" ry="6" fill="#a02050"/>
+      <ellipse cx="34" cy="72" rx="10" ry="5" fill="#7a1535"/>
+      <rect x="43" y="75" width="2" height="25" fill="#2d5a1b"/>
+      <ellipse cx="100" cy="78" rx="14" ry="7" fill="#c4537e"/>
+      <ellipse cx="114" cy="72" rx="12" ry="6" fill="#d4638e"/>
+      <ellipse cx="92" cy="70" rx="11" ry="5" fill="#b04070"/>
+      <rect x="103" y="73" width="2" height="27" fill="#2d5a1b"/>
+      <ellipse cx="180" cy="82" rx="10" ry="5" fill="#8b1a40"/>
+      <ellipse cx="190" cy="77" rx="10" ry="5" fill="#9b2a50"/>
+      <rect x="183" y="77" width="2" height="23" fill="#2d5a1b"/>
+      <ellipse cx="260" cy="79" rx="14" ry="7" fill="#d4638e"/>
+      <ellipse cx="274" cy="73" rx="13" ry="6" fill="#e0789e"/>
+      <ellipse cx="252" cy="71" rx="11" ry="5" fill="#c4537e"/>
+      <rect x="263" y="74" width="2" height="26" fill="#2d5a1b"/>
+      <ellipse cx="340" cy="76" rx="15" ry="8" fill="#a02050"/>
+      <ellipse cx="356" cy="70" rx="13" ry="7" fill="#b83060"/>
+      <ellipse cx="330" cy="69" rx="12" ry="6" fill="#902040"/>
+      <rect x="343" y="71" width="2" height="29" fill="#2d5a1b"/>
+      <ellipse cx="420" cy="80" rx="13" ry="6" fill="#c4537e"/>
+      <ellipse cx="433" cy="74" rx="12" ry="6" fill="#d4638e"/>
+      <ellipse cx="412" cy="72" rx="10" ry="5" fill="#b04070"/>
+      <rect x="423" y="75" width="2" height="25" fill="#2d5a1b"/>
+      <ellipse cx="500" cy="78" rx="11" ry="5" fill="#8b1a40"/>
+      <ellipse cx="512" cy="73" rx="11" ry="5" fill="#9b2a50"/>
+      <rect x="503" y="73" width="2" height="27" fill="#2d5a1b"/>
+      <ellipse cx="580" cy="77" rx="14" ry="7" fill="#d4638e"/>
+      <ellipse cx="594" cy="71" rx="12" ry="6" fill="#e0789e"/>
+      <ellipse cx="572" cy="70" rx="10" ry="5" fill="#c4537e"/>
+      <rect x="583" y="72" width="2" height="28" fill="#2d5a1b"/>
+      <ellipse cx="640" cy="81" rx="12" ry="6" fill="#a02050"/>
+      <ellipse cx="652" cy="76" rx="11" ry="5" fill="#b03060"/>
+      <rect x="643" y="76" width="2" height="24" fill="#2d5a1b"/>
+    </g>
+    <ellipse cx="40" cy="65" rx="6" ry="6" fill="#f9c8d9" opacity="0.9"/>
+    <ellipse cx="37" cy="62" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="43" cy="61" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="40" cy="58" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <circle cx="40" cy="62" r="3" fill="#fdeef5"/>
+    <ellipse cx="260" cy="63" rx="7" ry="7" fill="#f9c8d9" opacity="0.9"/>
+    <ellipse cx="256" cy="59" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="264" cy="59" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="260" cy="56" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <circle cx="260" cy="61" r="3" fill="#fdeef5"/>
+    <ellipse cx="500" cy="62" rx="6" ry="6" fill="#f9c8d9" opacity="0.9"/>
+    <ellipse cx="497" cy="58" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="503" cy="58" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <ellipse cx="500" cy="55" rx="5" ry="5" fill="#f5b0c8" opacity="0.8"/>
+    <circle cx="500" cy="60" r="3" fill="#fdeef5"/>
+  </svg>
+
+  <div id="stars-container"></div>
+</div>
+
+<div class="letter-wrap">
+  <p class="salutation" id="s0">Ifê,</p>
+  <p class="letter-line" id="l0">Je t'aime. Pas seulement quand tout va bien — tout le temps.</p>
+  <div class="divider" id="d1"></div>
+  <p class="letter-line" id="l1">Même quand je suis énervé, même quand les mots ne sortent pas comme il faut — je suis là. Je reste là.</p>
+  <p class="letter-line" id="l2">Parce que pour moi, tenir à quelqu'un, c'est choisir de régler les choses ensemble. Pas l'un contre l'autre. Toujours l'un avec l'autre.</p>
+  <div class="divider" id="d2"></div>
+  <p class="letter-line" id="l3">Tu comptes pour moi. Plus que tu ne le sais.</p>
+  <p class="signature" id="ln">— pour toi, et personne d'autre.</p>
+  <button class="heart-btn" id="hbtn" onclick="this.textContent = '— je t\'aime —'; this.style.color='#f9c8d9'; this.style.borderColor='#f9c8d9';">pour toi</button>
+</div>
+
+<script>
+  const scene = document.getElementById('scene');
+  const starsC = document.getElementById('stars-container');
+
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const size = Math.random() * 2 + 0.8;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*85}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+    starsC.appendChild(s);
+  }
+
+  const petalColors = ['#f9c8d9','#f5b0c8','#fde0ec','#e8a0bc','#fcc8dc'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = Math.random() * 10 + 6;
+    const color = petalColors[Math.floor(Math.random() * petalColors.length)];
+    p.style.cssText = `width:${size}px;height:${size*0.7}px;background:${color};top:-20px;left:${Math.random()*100}%;animation-duration:${5+Math.random()*6}s;animation-delay:${Math.random()*6}s;`;
+    scene.appendChild(p);
+  }
+
+  const order = ['s0','l0','d1','l1','l2','d2','l3','ln','hbtn'];
+  let idx = 0;
+  function showNext() {
+    if (idx >= order.length) return;
+    const el = document.getElementById(order[idx]);
+    if (el) el.classList.add('visible');
+    idx++;
+    setTimeout(showNext, idx <= 1 ? 1000 : 850);
+  }
+  setTimeout(showNext, 700);
+</script>
+</body>
+</html>
