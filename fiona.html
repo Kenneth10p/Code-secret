@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiona — Amie de l'Année</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink-50: #FBEAF0;
+    --pink-200: #ED93B1;
+    --pink-400: #D4537E;
+    --pink-600: #993556;
+    --pink-800: #72243E;
+    --teal-50: #E1F5EE;
+    --teal-600: #0F6E56;
+    --teal-800: #085041;
+    --amber-50: #FAEEDA;
+    --amber-400: #FAC775;
+    --amber-800: #633806;
+    --blue-50: #E6F1FB;
+    --blue-800: #0C447C;
+    --purple-50: #EEEDFE;
+    --purple-800: #3C3489;
+    --coral-50: #FAECE7;
+    --coral-800: #712B13;
+    --green-50: #EAF3DE;
+    --green-800: #27500A;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #0f0f0f;
+    color: #f0ede8;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle glow blobs */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 { width: 500px; height: 500px; background: #D4537E; top: -100px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: #1D9E75; bottom: 10%; left: -80px; }
+  .blob-3 { width: 300px; height: 300px; background: #EF9F27; top: 50%; right: 10%; }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+
+  .institute-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
+  }
+
+  .trophy-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 83, 126, 0.3);
+    font-size: 38px;
+    margin-bottom: 1.5rem;
+    background: rgba(212, 83, 126, 0.05);
+    animation: trophy-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes trophy-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212,83,126,0.2); }
+    50% { box-shadow: 0 0 0 12px rgba(212,83,126,0); }
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(42px, 10vw, 72px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #f0ede8;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-sub {
+    font-size: 14px;
+    color: var(--gray-400);
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+
+  .divider-line {
+    width: 40px;
+    height: 1px;
+    background: rgba(212, 83, 126, 0.4);
+    margin: 1.5rem auto;
+  }
+
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease 0.3s forwards;
+  }
+
+  @media (min-width: 480px) {
+    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(212, 83, 126, 0.25);
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+  .stat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #f0ede8;
+    line-height: 1;
+  }
+  .stat-note {
+    font-size: 10px;
+    color: rgba(240,237,232,0.4);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  /* Warning */
+  .warning-box {
+    background: rgba(250, 199, 117, 0.08);
+    border: 0.5px solid rgba(250, 199, 117, 0.25);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    font-size: 12.5px;
+    color: #FAC775;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease 0.45s forwards;
+  }
+
+  /* Sections */
+  .section {
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.2rem;
+    background: rgba(255,255,255,0.02);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .section.anim-1 { animation: fadeUp 0.7s ease 0.55s forwards; }
+  .section.anim-2 { animation: fadeUp 0.7s ease 0.7s forwards; }
+
+  .section-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
+  }
+
+  .row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 7px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.05);
+    font-size: 13.5px;
+  }
+  .row:last-child { border-bottom: none; }
+  .row-label { color: rgba(240,237,232,0.55); flex: 1; }
+  .row-val { font-weight: 500; color: #f0ede8; text-align: right; white-space: nowrap; }
+
+  /* Badges */
+  .badges-wrap { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 4px; }
+  .badge {
+    font-size: 11px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .b-pink    { background: rgba(251,234,240,0.1); color: #ED93B1; border: 0.5px solid rgba(237,147,177,0.2); }
+  .b-teal    { background: rgba(225,245,238,0.08); color: #5DCAA5; border: 0.5px solid rgba(93,202,165,0.2); }
+  .b-amber   { background: rgba(250,238,218,0.08); color: #FAC775; border: 0.5px solid rgba(250,199,117,0.2); }
+  .b-blue    { background: rgba(230,241,251,0.08); color: #85B7EB; border: 0.5px solid rgba(133,183,235,0.2); }
+  .b-purple  { background: rgba(238,237,254,0.08); color: #AFA9EC; border: 0.5px solid rgba(175,169,236,0.2); }
+  .b-green   { background: rgba(234,243,222,0.08); color: #97C459; border: 0.5px solid rgba(151,196,89,0.2); }
+  .b-coral   { background: rgba(250,236,231,0.08); color: #F0997B; border: 0.5px solid rgba(240,153,123,0.2); }
+
+  /* Verdict */
+  .verdict {
+    text-align: center;
+    border: 0.5px solid rgba(212, 83, 126, 0.2);
+    border-radius: 14px;
+    padding: 1.75rem 1.5rem;
+    background: rgba(212, 83, 126, 0.04);
+    font-size: 14px;
+    color: rgba(240,237,232,0.65);
+    line-height: 1.8;
+    margin-top: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.7s ease 0.85s forwards;
+  }
+  .verdict strong {
+    color: #f0ede8;
+    font-weight: 500;
+  }
+  .verdict .final-line {
+    margin-top: 1rem;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--pink-200);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(240,237,232,0.2);
+    opacity: 0;
+    animation: fadeUp 0.7s ease 1s forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<main>
+
+  <div class="header">
+    <p class="institute-label">Institut International de l'Amitié Douteuse™ · Rapport officiel</p>
+    <div class="trophy-wrap">🏆</div>
+    <h1>Fiona</h1>
+    <div class="divider-line"></div>
+    <p class="header-sub">Amie de l'année · Certifiée, auditée, et franchement intimidante</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Snacks ramenés en cours</div>
+      <div class="stat-value">143</div>
+      <div class="stat-note">dont 0 pour elle seule</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Ponctualité</div>
+      <div class="stat-value">100%</div>
+      <div class="stat-note">donnée suspecte, en cours de vérification</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Sourires distribués</div>
+      <div class="stat-value">2 847</div>
+      <div class="stat-note">estimation basse</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Séances Starbucks</div>
+      <div class="stat-value">∞ kcal</div>
+      <div class="stat-note">en "mode travail"</div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    ⚠ <strong>Avertissement de l'IIAD™ :</strong> Le sujet pratique la course à pied ET faisait de la boxe. Toute moquerie doit être faite à distance raisonnable (minimum 400m, soit une bonne longueur de piste).
+  </div>
+
+  <div class="section anim-1">
+    <div class="section-title">Analyse comportementale détaillée</div>
+    <div class="row"><span class="row-label">Ordre de commande au Starbucks</span><span class="row-val">passée avant même de s'asseoir</span></div>
+    <div class="row"><span class="row-label">Productivité effective au Starbucks</span><span class="row-val">37 min sur 3h</span></div>
+    <div class="row"><span class="row-label">Type de snack ramené en cours</span><span class="row-val">toujours le bon</span></div>
+    <div class="row"><span class="row-label">Niveau de menace physique potentielle</span><span class="row-val">élevé (ex-boxeuse)</span></div>
+    <div class="row"><span class="row-label">Vitesse de fuite estimée (coureuse)</span><span class="row-val">tu ne la rattraperas pas</span></div>
+    <div class="row"><span class="row-label">Score gentillesse globale</span><span class="row-val">9,8 / 10</span></div>
+    <div class="row"><span class="row-label">Score dangerosité si énervement</span><span class="row-val">9,8 / 10</span></div>
+  </div>
+
+  <div class="section anim-2">
+    <div class="section-title">Certifications obtenues cette année</div>
+    <div class="badges-wrap">
+      <span class="badge b-teal">Distributrice officielle de snacks</span>
+      <span class="badge b-pink">Souriante même à 8h du mat</span>
+      <span class="badge b-amber">Grande prêtresse du Starbucks "on bosse"</span>
+      <span class="badge b-coral">Ceinture noire de la ponctualité</span>
+      <span class="badge b-blue">Coureuse — donc intouchable</span>
+      <span class="badge b-purple">Ex-boxeuse — donc intouchable x2</span>
+      <span class="badge b-green">Meilleure énergie de la salle</span>
+    </div>
+  </div>
+
+  <div class="verdict">
+    Le jury note avec inquiétude que Fiona est à la fois trop gentille pour qu'on se moque d'elle<br>
+    et physiquement capable de nous le faire regretter.<br><br>
+    Elle arrive à l'heure, elle ramène des snacks, elle sourit à tout le monde.<br>
+    C'est franchement suspect. Personne n'est aussi bien.<br><br>
+    <strong>Trophée décerné à l'unanimité.</strong> On ne mérite pas Fiona.
+    <div class="final-line">On ne mérite pas Fiona.</div>
+  </div>
+
+</main>
+
+<footer>
+  IIAD™ · Institut International de l'Amitié Douteuse · Tous droits réservés · Probablement
+</footer>
+
+</body>
+</html>
